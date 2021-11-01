@@ -154,3 +154,25 @@ Your architecture diagram should focus on the services and how they talk to one 
 ## References
 Dependency Graph: the direction: A dependency is generally shown as a dashed arrow pointing from the client (dependent) at the tail to the supplier (provider) at the arrowhead.
 https://stackoverflow.com/questions/62066474/python-flask-automatically-generated-swagger-openapi-3-0
+https://geoalchemy-2.readthedocs.io/en/latest/orm_tutorial.html
+marshal_list_with api.doc etc: https://flask-restx.readthedocs.io/en/latest/swagger.html
+Volumes mount at the specified paths within the image. 
+PV vs PVC: https://stackoverflow.com/questions/48956049/what-is-the-difference-between-persistent-volume-pv-and-persistent-volume-clai
+https://geoalchemy-2.readthedocs.io/en/0.2.6/_modules/geoalchemy2/shape.html
+get_json: https://flask.palletsprojects.com/en/2.0.x/api/
+ST_Point:class geoalchemy2.functions.ST_Point(*args, **kwargs)
+Creates a Point with the given coordinate values. Alias for ST_MakePoint.
+see http://postgis.net/docs/ST_Point.html
+
+class geoalchemy2.functions.ST_AsText(*args, **kwargs)
+Return the Well-Known Text (WKT) representation of the geometry/geography without SRID metadata; is the reverse of ST_GeomFromText.
+@dataclass: https://docs.python.org/3/library/dataclasses.html
+
+frontend uses only 2 REST API endpoints:  `http://localhost:30001/api/persons/${personId}/connection?start_date=2020-01-01&end_date=2020-12-30&distance=5` and  `http://localhost:30001/api`; therefore, these two will remain external-facting REST API; but they would be split as the load would be different, requiring different resouce allocation per DeploymentConfig. 
+
+The first, the connection GET, could be potentially slow; therefore, I decide to front it with a message queue, Kafka, in this case, to improve user experience by providing unsynchronousy and durability. 
+
+Location resource is internal and POST could be intensive, therefore, makes a good candidate for grpc.
+
+Copy and paste in moddules/: api/, rename; copy in deploymnet/: person-api.yaml; remove non-person stuff; use 5100 port; 
+in snake env: `docker build -t person .`
