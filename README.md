@@ -176,3 +176,53 @@ Location resource is internal and POST could be intensive, therefore, makes a go
 
 Copy and paste in moddules/: api/, rename; copy in deploymnet/: person-api.yaml; remove non-person stuff; use 5100 port; 
 in snake env: `docker build -t person .`
+docker run --rm -p 5100:5100 person
+
+conda create -n udaconnect_env python=3.9
+
+docker build -t nd064-person-api .  
+docker tag nd064-person-api treefishdocker/nd064-person-api:latest
+docker image ls |grep person
+docker push treefishdocker/nd064-person-api:latest
+
+kubectl apply -f deployment/person-api.yaml //get crashloop error;
+kubectl logs <pod>
+
+
+TODO: set up portforwarding in Vagrant file;
+set up env to allow local 
+
+# instead of treefishdocker/nd064-person-api:v0.0.4
+use local image? https://medium.com/swlh/how-to-run-locally-built-docker-images-in-kubernetes-b28fbc32cc1d 
+At project directory, running `kubectl get svc` will get "The connection to the server 127.0.0.1:6443 was refused - did you specify the right host or port?" if Vagrant is not up
+http://localhost:30001/health good
+http://127.0.0.1:30001/health
+http://127.0.0.1:30002/health
+docker build -t local-person-api  ./modules/person-api/ 
+
+sudo cat /etc/rancher/k3s/registries.yaml
+
+docker build -t nd064-person-api  ./modules/person-api/
+docker tag nd064-person-api treefishdocker/nd064-person-api:latest
+ docker push treefishdocker/nd064-person-api:latest 
+docker build -t udaconnect-app  ./modules/frontend/  
+docker image ls
+
+
+mommy@Mommys-iMac nd064-c2-message-passing-projects-starter % kubectl port-forward pod/udaconnect-api-89dbffbf9-mvxrd :5000 : ok
+
+add os.env
+docker build -t local-person modules/person-api/ 
+docker run --rm -p 5002:5002 local-person
+
+expose: only to internal svc or informative; ports: host:containerPort per https://stackoverflow.com/questions/40801772/what-is-the-difference-between-docker-compose-ports-vs-expose
+
+fixed by adding absolute dir in Dockerfile for mount; run `docker-compose up` in udaconnect_env conda env;
+changes not reflected to endpoint: `docker system prune` `docker image rm <>`; 
+export DB_USERNAME=ct_admin # os.environ["DB_USERNAME"]
+export DB_PASSWORD=d293aW1zb3NlY3VyZQ== # os.environ["DB_PASSWORD"]
+export DB_HOST=postgres # os.environ["DB_HOST"]
+export DB_PORT=5432 # os.environ["DB_PORT"]
+export DB_NAME = geoconnections  # os.environ["DB_NAME"]
+export FLASK_ENV=test
+option shift A : comment out code in VSCode Mac

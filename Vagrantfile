@@ -20,7 +20,7 @@ Vagrant.configure("2") do |config|
     master.vm.network 'private_network', ip: "192.168.0.200",  virtualbox__intnet: true
     master.vm.network "forwarded_port", guest: 22, host: 2222, id: "ssh", disabled: true
     master.vm.network "forwarded_port", guest: 22, host: 2000 # Master Node SSH
-    master.vm.network "forwarded_port", guest: 6443, host: 6443 # API Access
+    master.vm.network "forwarded_port", guest: 6443, host: 6443 # kubectl API Access
     for p in 30000..30100 # expose NodePort IP's
       master.vm.network "forwarded_port", guest: p, host: p, protocol: "tcp"
       end
@@ -53,6 +53,9 @@ Vagrant.configure("2") do |config|
   # within the machine from a port on the host machine and only allow access
   # via 127.0.0.1 to disable public access
   # config.vm.network "forwarded_port", guest: 80, host: 8080, host_ip: "127.0.0.1"
+  config.vm.network "forwarded_port", guest: 30002, host: 5002, host_ip: "127.0.0.1"
+  config.vm.network "forwarded_port", guest: 30001, host: 5000, host_ip: "127.0.0.1"
+  config.vm.network "forwarded_port", guest: 30005, host: 5005, host_ip: "127.0.0.1"
 
   # Create a private network, which allows host-only access to the machine
   # using a specific IP.

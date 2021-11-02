@@ -19,23 +19,32 @@ api = Namespace("Person", description="Person to be Connected.")  # noqa
 
 @api.route("/persons")
 class PersonsResource(Resource):
-    @accepts(schema=PersonSchema)
+    """ @accepts(schema=PersonSchema)
     @responds(schema=PersonSchema)
     def post(self) -> Person:
         payload = request.get_json()
         new_person: Person = PersonService.create(payload)
-        return new_person
+        return new_person """
 
     @responds(schema=PersonSchema, many=True)
     def get(self) -> List[Person]:
-        persons: List[Person] = PersonService.retrieve_all()
-        return persons
+        persons: List[Person] = PersonService.retrieve_all_persons()
+    
+        # JSONify response
+        response = make_response(jsonify(persons))
 
+        # Add Access-Control-Allow-Origin header to allow cross-site request
+        response.headers['Access-Control-Allow-Origin'] = 'http://localhost:3000'
 
+        return response
+        # return persons
+
+""" 
 @api.route("/persons/<person_id>")
 @api.param("person_id", "Unique ID for a given Person", _in="query")
 class PersonResource(Resource):
     @responds(schema=PersonSchema)
     def get(self, person_id) -> Person:
-        person: Person = PersonService.retrieve(person_id)
+        person: Person = PersonService.retrieve_one(person_id)
         return person
+ """

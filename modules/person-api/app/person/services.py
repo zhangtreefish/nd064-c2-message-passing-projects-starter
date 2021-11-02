@@ -6,7 +6,7 @@ from app import db
 from app.person.models import Person
 from app.person.schemas import PersonSchema
 
-logging.basicConfig(level=logging.WARNING)
+logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger("person-api")
 
 class PersonService:
@@ -30,3 +30,15 @@ class PersonService:
     @staticmethod
     def retrieve_all() -> List[Person]:
         return db.session.query(Person).all()
+
+    @staticmethod
+    def retrieve_all_persons() -> List[Person]:
+        return [
+        {"id": 1, "first_name": "John", "last_name":"smith", "company_name": "udacity"},
+        {"id": 5, "first_name": "she", "last_name":"whom", "company_name": "tesla"},     
+    ]
+
+    @staticmethod
+    def retrieve_one(person_id: int) -> Person:
+        person = db.session.query(Person).get(person_id)
+        return {"id": 1, "first_name": "the", "last_name":"only", "company_name": "one"}

@@ -1,4 +1,5 @@
 from app.person.models import Person
+from marshmallow import Schema, fields
 
 class PersonSchema(Schema):
     id = fields.Integer()

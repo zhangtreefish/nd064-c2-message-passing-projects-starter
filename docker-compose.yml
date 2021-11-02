@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+  person-api:
+    build: modules/person-api
+    command: ["flask", "run", "--host=0.0.0.0"]
+    volumes:
+      - ./modules/person-api:/backend
+    environment:
+      - FLASK_ENV=development
+      # - FLASK_APP=customer-api.py
+    ports:
+      - "5002:5000"
