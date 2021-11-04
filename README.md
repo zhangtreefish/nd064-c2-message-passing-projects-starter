@@ -185,8 +185,10 @@ docker tag nd064-person-api treefishdocker/nd064-person-api:latest
 docker image ls |grep person
 docker push treefishdocker/nd064-person-api:latest
 
-kubectl apply -f deployment/person-api.yaml //get crashloop error;
+first time deploy: `kubectl apply -f deployment/person-api.yaml` //if get crashloop error:
 kubectl logs <pod>
+to update with :latest tag: `kubectl patch deployment person-api  -p "{\"spec\":{\"template\":{\"metadata\":{\"labels\":{\"date\":\"`date +'%s'`\"}}}}}"` per https://stackoverflow.com/questions/53591417/kubernetes-kubectl-apply-does-not-update-pods-when-using-latest-tag
+
 
 
 TODO: set up portforwarding in Vagrant file;
@@ -202,9 +204,9 @@ docker build -t local-person-api  ./modules/person-api/
 
 sudo cat /etc/rancher/k3s/registries.yaml
 
-docker build -t nd064-person-api  ./modules/person-api/
-docker tag nd064-person-api treefishdocker/nd064-person-api:latest
- docker push treefishdocker/nd064-person-api:latest 
+`docker build -t nd064-person-api  ./modules/person-api/` //in udaconnect_env
+`docker tag nd064-person-api:latest treefishdocker/nd064-person-api:latest`
+`docker push treefishdocker/nd064-person-api:latest` 
 docker build -t udaconnect-app  ./modules/frontend/  
 docker image ls
 

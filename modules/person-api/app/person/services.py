@@ -31,6 +31,7 @@ class PersonService:
     def retrieve_all() -> List[Person]:
         return db.session.query(Person).all()
 
+    # this method is purely for stubbing during development
     @staticmethod
     def retrieve_all_persons() -> List[Person]:
         return [
@@ -38,7 +39,7 @@ class PersonService:
         {"id": 5, "first_name": "she", "last_name":"whom", "company_name": "tesla"},     
     ]
 
+    # this method is purely for stubbing during development
     @staticmethod
     def retrieve_one(person_id: int) -> Person:
-        person = db.session.query(Person).get(person_id)
         return {"id": 1, "first_name": "the", "last_name":"only", "company_name": "one"}
