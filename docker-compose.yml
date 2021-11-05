@@ -10,4 +10,4 @@ services:
       - FLASK_ENV=development
       # - FLASK_APP=customer-api.py
     ports:
-      - "5002:5000"
+      - "5002:5002"

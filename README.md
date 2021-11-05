@@ -228,3 +228,5 @@ export DB_PORT=5432 # os.environ["DB_PORT"]
 export DB_NAME = geoconnections  # os.environ["DB_NAME"]
 export FLASK_ENV=test
 option shift A : comment out code in VSCode Mac
+
+udaconnect_env: `vagrnat destroy` then `vagrant up`
