@@ -1,10 +1,10 @@
 from datetime import datetime
 
-from app.person.models import Person
-from app.person.schemas import (
+from app.common.models import Person
+from app.common.schemas import (
     PersonSchema,
 )
-from app.person.services import PersonService
+from app.common.services import PersonService
 from flask import request
 from flask_accepts import accepts, responds
 from flask_restx import Namespace, Resource
@@ -12,7 +12,7 @@ from typing import List
 
 DATE_FORMAT = "%Y-%m-%d"
 
-api = Namespace("Person", description="Person to be Connected.")  # noqa
+api = Namespace("Persons", description="Persons to be Connected.")  # noqa
 
 
 # TODO: This needs better exception handling

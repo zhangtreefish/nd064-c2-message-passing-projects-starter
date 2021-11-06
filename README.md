@@ -151,7 +151,7 @@ Your architecture diagram should focus on the services and how they talk to one 
 * We can access a running Docker container using `kubectl exec -it <pod_id> sh`. From there, we can `curl` an endpoint to debug network issues.
 * The starter project uses Python Flask. Flask doesn't work well with `asyncio` out-of-the-box. Consider using `multiprocessing` to create threads for asynchronous behavior in a standard Flask application.
 
-## References
+## References and note dumps
 Dependency Graph: the direction: A dependency is generally shown as a dashed arrow pointing from the client (dependent) at the tail to the supplier (provider) at the arrowhead.
 https://stackoverflow.com/questions/62066474/python-flask-automatically-generated-swagger-openapi-3-0
 https://geoalchemy-2.readthedocs.io/en/latest/orm_tutorial.html
@@ -185,19 +185,13 @@ docker tag nd064-person-api treefishdocker/nd064-person-api:latest
 docker image ls |grep person
 docker push treefishdocker/nd064-person-api:latest
 
-first time deploy: `kubectl apply -f deployment/person-api.yaml` //if get crashloop error:
-kubectl logs <pod>
-to update with :latest tag: `kubectl patch deployment person-api  -p "{\"spec\":{\"template\":{\"metadata\":{\"labels\":{\"date\":\"`date +'%s'`\"}}}}}"` per https://stackoverflow.com/questions/53591417/kubernetes-kubectl-apply-does-not-update-pods-when-using-latest-tag
-
-
-
 TODO: set up portforwarding in Vagrant file;
 set up env to allow local 
 
 # instead of treefishdocker/nd064-person-api:v0.0.4
 use local image? https://medium.com/swlh/how-to-run-locally-built-docker-images-in-kubernetes-b28fbc32cc1d 
 At project directory, running `kubectl get svc` will get "The connection to the server 127.0.0.1:6443 was refused - did you specify the right host or port?" if Vagrant is not up
-http://localhost:30001/health good
+http://localhost:30001/health 200
 http://127.0.0.1:30001/health
 http://127.0.0.1:30002/health
 docker build -t local-person-api  ./modules/person-api/ 
@@ -207,11 +201,11 @@ sudo cat /etc/rancher/k3s/registries.yaml
 `docker build -t nd064-person-api  ./modules/person-api/` //in udaconnect_env
 `docker tag nd064-person-api:latest treefishdocker/nd064-person-api:latest`
 `docker push treefishdocker/nd064-person-api:latest` 
-docker build -t udaconnect-app  ./modules/frontend/  
+`docker build -t udaconnect-app  ./modules/frontend/`
 docker image ls
 
 
-mommy@Mommys-iMac nd064-c2-message-passing-projects-starter % kubectl port-forward pod/udaconnect-api-89dbffbf9-mvxrd :5000 : ok
+mommy@Mommys-iMac nd064-c2-message-passing-projects-starter % kubectl port-forward pod/udaconnect-api-89dbffbf9-mvxrd :5000 : 200
 
 add os.env
 docker build -t local-person modules/person-api/ 
@@ -221,12 +215,36 @@ expose: only to internal svc or informative; ports: host:containerPort per https
 
 fixed by adding absolute dir in Dockerfile for mount; run `docker-compose up` in udaconnect_env conda env;
 changes not reflected to endpoint: `docker system prune` `docker image rm <>`; 
-export DB_USERNAME=ct_admin # os.environ["DB_USERNAME"]
-export DB_PASSWORD=d293aW1zb3NlY3VyZQ== # os.environ["DB_PASSWORD"]
-export DB_HOST=postgres # os.environ["DB_HOST"]
-export DB_PORT=5432 # os.environ["DB_PORT"]
-export DB_NAME = geoconnections  # os.environ["DB_NAME"]
-export FLASK_ENV=test
+
 option shift A : comment out code in VSCode Mac
 
-udaconnect_env: `vagrnat destroy` then `vagrant up`
+All in conda env: 
+udaconnect_env: `vagrnat destroy` then `vagrant up` ..
+`http://localhost:30002/` - OpenAPI Documentation
+docker tag udaconnect-app:latest treefishdocker/udaconnect-app:latest 
+
+first time deploy: `kubectl apply -f deployment/person-api.yaml` //if get crashloop error:
+kubectl logs <pod>
+to update with :latest tag: `kubectl patch deployment person-api  -p "{\"spec\":{\"template\":{\"metadata\":{\"labels\":{\"date\":\"`date +'%s'`\"}}}}}"` per https://stackoverflow.com/questions/53591417/kubernetes-kubectl-apply-does-not-update-pods-when-using-latest-tag
+
+need to use namespace to organize: add persons-api as namespace , as new-api
+TODOs:
+docker build -t newconnect-api modules/new-api/ 
+docker tag newconnect-api treefishdocker/newconnect-api:latest
+kubectl apply -f deployment/newconnect-api.yaml
+
+local docker registry: `sudo vi registries.yaml` per https://rancher.com/docs/k3s/latest/en/installation/private-registry/
+mirrors:
+  docker.io:
+    endpoint:
+      - "http://mycustomreg.com:5009"
+configs:
+  "mycustomreg:5009":
+    auth:
+      username: "username" # this is the registry username
+      password: "pwd" # this is the registry password
+
+docker tag newconnect-api:latest mycustomreg.com:5009/newconnect-api       
+docker push mycustomreg.com:5009/newconnect-api       
+
+`kubectl patch deployment newconnect-api  -p "{\"spec\":{\"template\":{\"metadata\":{\"labels\":{\"date\":\"`date +'%s'`\"}}}}}"`
