@@ -27,3 +27,12 @@ https://visualstudiomagazine.com/articles/2020/01/16/grpc-well-known-types.aspx
 https://stackoverflow.com/questions/62315295/convert-datetime-to-protobuf-timestamp-in-python
 https://www.programiz.com/python-programming/datetime/strftime
 https://strftime.org/
+https://stackoverflow.com/questions/710551/use-import-module-or-from-module-import
+https://github.com/protocolbuffers/protobuf/issues/3986
+https://stackoverflow.com/questions/35407560/attributeerror-dict-object-has-no-attribute-predictors
+
+:"Exception calling application: Invalid payload: {'creation_time': ['Not a valid datetime"...: it required a strfdatetime, not datetime.
+:"	status = StatusCode.UNKNOWN
+	details = "Exception calling application: No application found. Either work inside a view function or push an application context. See http://flask-sqlalchemy.pocoo.org/contexts/."
+https://realpython.com/python-microservices-grpc/
+So I added the "with" block as per https://flask.palletsprojects.com/en/2.0.x/appcontext/, but got '...NameError: name 'init_db' is not defined"'. How is init_db imported? If I use db.init_app(app) instead, then upon running writer.py I got "status = StatusCode.UNAVAILABLE details = "failed to connect to all addresses" grpc_status":14}
