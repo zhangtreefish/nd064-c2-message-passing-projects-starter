@@ -2,11 +2,12 @@ FROM python:3.7-alpine
 
 WORKDIR .
 
-RUN apk add --no-cache gcc musl-dev linux-headers geos libc-dev postgresql-dev
+# RUN apk add --no-cache gcc musl-dev linux-headers geos libc-dev postgresql-dev
 COPY requirements.txt requirements.txt
 RUN pip install -r requirements.txt
 
-EXPOSE 5000
+EXPOSE 5006
 
 COPY . .
-CMD ["flask", "run", "--host", "0.0.0.0"]
+CMD ["python3 -m", "grpc_tools.protoc -I./ --python_out=./ --grpc_python_out=./ location.proto"]
+CMD ["python3", "main.py"]
