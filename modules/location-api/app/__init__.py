@@ -14,6 +14,5 @@ def create_app(env=None):
         # init_db()
         db.init_app(app)
 
-
     return app
     

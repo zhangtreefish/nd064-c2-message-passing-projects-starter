@@ -6,7 +6,7 @@ import location_pb2
 import location_pb2_grpc
 from google.protobuf.timestamp_pb2 import Timestamp
 from datetime import datetime
-import location.location_service
+import location_service
 
 
 class LocationServicer(location_pb2_grpc.LocationServiceServicer):
@@ -44,7 +44,7 @@ class LocationServicer(location_pb2_grpc.LocationServiceServicer):
         # return location_pb2.LocationMessageResponse(**location_res)
         # return location_res
         # result_from_svc = app.location_service.LocationService.Create(location_pb2.LocationMessageResponse(**location_res))
-        result_from_svc = app.location_service.LocationService.Create(request_value)
+        result_from_svc = location_service.LocationService.Create(request_value)
         return result_from_svc
 
     def Retrieve(self, request, context):
@@ -64,26 +64,31 @@ class LocationServicer(location_pb2_grpc.LocationServiceServicer):
         print(result)
         return location_res
 
-# Initialize gRPC server
-server = grpc.server(futures.ThreadPoolExecutor(max_workers=2))
-location_pb2_grpc.add_LocationServiceServicer_to_server(LocationServicer(), server)
-
 # call create_app() in the grpc server:
 import os
 
-from location import create_app
+from app import create_app
 
 app = create_app(os.getenv("FLASK_ENV") or "test")
 if __name__ == "__main__":
     app.run(debug=True)
+
+    # Initialize gRPC server
+    server = grpc.server(futures.ThreadPoolExecutor(max_workers=2))
+    location_pb2_grpc.add_LocationServiceServicer_to_server(LocationServicer(), server)
+
+
+    print("Server starting on port 5006...")
+    server.add_insecure_port("[::]:5006")
+    server.start()
+
+
+    # Keep thread alive
+    try:
+        while True:
+            time.sleep(86400)
+    except KeyboardInterrupt:
+        server.stop(0)
+
 # end
 
-print("Server starting on port 5006...")
-server.add_insecure_port("[::]:5006")
-server.start()
-# Keep thread alive
-try:
-    while True:
-        time.sleep(86400)
-except KeyboardInterrupt:
-    server.stop(0)

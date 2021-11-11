@@ -36,3 +36,4 @@ https://stackoverflow.com/questions/35407560/attributeerror-dict-object-has-no-a
 	details = "Exception calling application: No application found. Either work inside a view function or push an application context. See http://flask-sqlalchemy.pocoo.org/contexts/."
 https://realpython.com/python-microservices-grpc/
 So I added the "with" block as per https://flask.palletsprojects.com/en/2.0.x/appcontext/, but got '...NameError: name 'init_db' is not defined"'. How is init_db imported? If I use db.init_app(app) instead, then upon running writer.py I got "status = StatusCode.UNAVAILABLE details = "failed to connect to all addresses" grpc_status":14}
+https://stackoverflow.com/questions/419163/what-does-if-name-main-do

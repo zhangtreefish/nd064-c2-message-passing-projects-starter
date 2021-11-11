@@ -17,7 +17,7 @@ from sqlalchemy.dialects.postgresql import JSONB, UUID
 from sqlalchemy.ext.hybrid import hybrid_property
 # for Schame:
 from marshmallow import Schema, fields
-from location import db
+from app import db
 
 logging.basicConfig(level=logging.WARNING)
 logger = logging.getLogger("location_service")
