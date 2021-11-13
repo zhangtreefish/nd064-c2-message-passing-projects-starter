@@ -21,7 +21,7 @@ class LocationServiceStub(object):
                 )
         self.Retrieve = channel.unary_unary(
                 '/LocationService/Retrieve',
-                request_serializer=location__pb2.Empty.SerializeToString,
+                request_serializer=location__pb2.RetrieveMessageRequest.SerializeToString,
                 response_deserializer=location__pb2.LocationMessageResponse.FromString,
                 )
 
@@ -51,7 +51,7 @@ def add_LocationServiceServicer_to_server(servicer, server):
             ),
             'Retrieve': grpc.unary_unary_rpc_method_handler(
                     servicer.Retrieve,
-                    request_deserializer=location__pb2.Empty.FromString,
+                    request_deserializer=location__pb2.RetrieveMessageRequest.FromString,
                     response_serializer=location__pb2.LocationMessageResponse.SerializeToString,
             ),
     }
@@ -93,7 +93,7 @@ class LocationService(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/LocationService/Retrieve',
-            location__pb2.Empty.SerializeToString,
+            location__pb2.RetrieveMessageRequest.SerializeToString,
             location__pb2.LocationMessageResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

@@ -144,7 +144,7 @@ To manually connect to the database, you will need software compatible with Post
 ## Architecture Diagrams
 Your architecture diagram should focus on the services and how they talk to one another. For our project, we want the diagram in a `.png` format. Some popular free software and tools to create architecture diagrams:
 1. [Lucidchart](https://www.lucidchart.com/pages/)
-2. [Google Docs](docs.google.com) Drawings (In a Google Doc, _Insert_ - _Drawing_ - _+ New_)
+2. [Google Docs](docs.google.com) Drawings (In a Google Doc, _Insert_ - _Drawing_ - _+ New_; to save: Actions - Download)
 3. [Diagrams.net](https://app.diagrams.net/)
 
 ## Tips
@@ -168,7 +168,7 @@ class geoalchemy2.functions.ST_AsText(*args, **kwargs)
 Return the Well-Known Text (WKT) representation of the geometry/geography without SRID metadata; is the reverse of ST_GeomFromText.
 @dataclass: https://docs.python.org/3/library/dataclasses.html
 
-frontend uses only 2 REST API endpoints:  `http://localhost:30001/api/persons/${personId}/connection?start_date=2020-01-01&end_date=2020-12-30&distance=5` and  `http://localhost:30001/api`; therefore, these two will remain external-facting REST API; but they would be split as the load would be different, requiring different resouce allocation per DeploymentConfig. 
+frontend uses only 2 REST API endpoints:  `http://localhost:30001/api/persons/${personId}/connection?start_date=2020-01-01&end_date=2020-12-30&distance=5` and  `http://localhost:30001/api/persons`; therefore, these two will remain external-facting REST API; but they would be split as the load would be different, requiring different resouce allocation per DeploymentConfig. 
 
 The first, the connection GET, could be potentially slow; therefore, I decide to front it with a message queue, Kafka, in this case, to improve user experience by providing unsynchronousy and durability. 
 
@@ -248,3 +248,9 @@ docker tag newconnect-api:latest mycustomreg.com:5009/newconnect-api
 docker push mycustomreg.com:5009/newconnect-api       
 
 `kubectl patch deployment newconnect-api  -p "{\"spec\":{\"template\":{\"metadata\":{\"labels\":{\"date\":\"`date +'%s'`\"}}}}}"`
+
+coverage>=4.0
+cython>=0.29.8
+protobuf>=3.5.0.post1, < 4.0dev
+six>=1.10
+wheel>=0.29

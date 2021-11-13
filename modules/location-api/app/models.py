@@ -3,13 +3,14 @@ from __future__ import annotations
 from dataclasses import dataclass
 from datetime import datetime
 
-from app import db  # noqa
+from database import db  # noqa
 # from geoalchemy2 import Geometry
 from geoalchemy2.shape import to_shape
 from shapely.geometry.point import Point
 from sqlalchemy import BigInteger, Column, Date, DateTime, ForeignKey, Integer, String
 from sqlalchemy.dialects.postgresql import JSONB, UUID
 from sqlalchemy.ext.hybrid import hybrid_property
+from geoalchemy2 import Geometry
 
 
 class Person(db.Model):
@@ -57,8 +58,13 @@ class Location(db.Model):
         coord_text = self.wkt_shape
         return coord_text[coord_text.find("(") + 1 : coord_text.find(" ")]
 
+    # per https://stackoverflow.com/questions/35282222/in-python-how-do-i-cast-a-class-object-to-a-dict/35282286
+    def to_dict(self):
+        class_vars = vars(Location)  # get any "default" attrs defined at the class level
+        inst_vars = vars(self)  # get any attrs defined on the instance (self)
+        all_vars = dict(class_vars)
+        all_vars.update(inst_vars)
+        # filter out private attributes
+        public_vars = {k: v for k, v in all_vars.items() if not k.startswith('_')}
+        return public_vars
 
-@dataclass
-class Connection:
-    location: Location
-    person: Person

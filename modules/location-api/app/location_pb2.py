@@ -20,7 +20,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\x0elocation.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\x8f\x01\n\x16LocationMessageRequest\x12\n\n\x02id\x18\x01 \x01(\t\x12\x11\n\tperson_id\x18\x02 \x01(\x05\x12\x11\n\tlongitude\x18\x03 \x01(\x02\x12\x10\n\x08latitude\x18\x04 \x01(\x02\x12\x31\n\rcreation_time\x18\x05 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\"c\n\x17LocationMessageResponse\x12\n\n\x02id\x18\x01 \x01(\t\x12\x11\n\tperson_id\x18\x02 \x01(\x05\x12\x12\n\ncoordinate\x18\x03 \x01(\t\x12\x15\n\rcreation_time\x18\x04 \x01(\t\"\x07\n\x05\x45mpty2|\n\x0fLocationService\x12;\n\x06\x43reate\x12\x17.LocationMessageRequest\x1a\x18.LocationMessageResponse\x12,\n\x08Retrieve\x12\x06.Empty\x1a\x18.LocationMessageResponseb\x06proto3'
+  serialized_pb=b'\n\x0elocation.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\x83\x01\n\x16LocationMessageRequest\x12\x11\n\tperson_id\x18\x01 \x01(\x05\x12\x11\n\tlongitude\x18\x02 \x01(\x02\x12\x10\n\x08latitude\x18\x03 \x01(\x02\x12\x31\n\rcreation_time\x18\x04 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\"$\n\x16RetrieveMessageRequest\x12\n\n\x02id\x18\x01 \x01(\t\"c\n\x17LocationMessageResponse\x12\n\n\x02id\x18\x01 \x01(\t\x12\x11\n\tperson_id\x18\x02 \x01(\x05\x12\x12\n\ncoordinate\x18\x03 \x01(\t\x12\x15\n\rcreation_time\x18\x04 \x01(\t\"\x07\n\x05\x45mpty2\x8d\x01\n\x0fLocationService\x12;\n\x06\x43reate\x12\x17.LocationMessageRequest\x1a\x18.LocationMessageResponse\x12=\n\x08Retrieve\x12\x17.RetrieveMessageRequest\x1a\x18.LocationMessageResponseb\x06proto3'
   ,
   dependencies=[google_dot_protobuf_dot_timestamp__pb2.DESCRIPTOR,])
 
@@ -36,36 +36,29 @@ _LOCATIONMESSAGEREQUEST = _descriptor.Descriptor(
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='id', full_name='LocationMessageRequest.id', index=0,
-      number=1, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=b"".decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-    _descriptor.FieldDescriptor(
-      name='person_id', full_name='LocationMessageRequest.person_id', index=1,
-      number=2, type=5, cpp_type=1, label=1,
+      name='person_id', full_name='LocationMessageRequest.person_id', index=0,
+      number=1, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='longitude', full_name='LocationMessageRequest.longitude', index=2,
+      name='longitude', full_name='LocationMessageRequest.longitude', index=1,
+      number=2, type=2, cpp_type=6, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='latitude', full_name='LocationMessageRequest.latitude', index=2,
       number=3, type=2, cpp_type=6, label=1,
       has_default_value=False, default_value=float(0),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='latitude', full_name='LocationMessageRequest.latitude', index=3,
-      number=4, type=2, cpp_type=6, label=1,
-      has_default_value=False, default_value=float(0),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-    _descriptor.FieldDescriptor(
-      name='creation_time', full_name='LocationMessageRequest.creation_time', index=4,
-      number=5, type=11, cpp_type=10, label=1,
+      name='creation_time', full_name='LocationMessageRequest.creation_time', index=3,
+      number=4, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -83,7 +76,39 @@ _LOCATIONMESSAGEREQUEST = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=52,
-  serialized_end=195,
+  serialized_end=183,
+)
+
+
+_RETRIEVEMESSAGEREQUEST = _descriptor.Descriptor(
+  name='RetrieveMessageRequest',
+  full_name='RetrieveMessageRequest',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='id', full_name='RetrieveMessageRequest.id', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=185,
+  serialized_end=221,
 )
 
 
@@ -135,8 +160,8 @@ _LOCATIONMESSAGERESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=197,
-  serialized_end=296,
+  serialized_start=223,
+  serialized_end=322,
 )
 
 
@@ -160,12 +185,13 @@ _EMPTY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=298,
-  serialized_end=305,
+  serialized_start=324,
+  serialized_end=331,
 )
 
 _LOCATIONMESSAGEREQUEST.fields_by_name['creation_time'].message_type = google_dot_protobuf_dot_timestamp__pb2._TIMESTAMP
 DESCRIPTOR.message_types_by_name['LocationMessageRequest'] = _LOCATIONMESSAGEREQUEST
+DESCRIPTOR.message_types_by_name['RetrieveMessageRequest'] = _RETRIEVEMESSAGEREQUEST
 DESCRIPTOR.message_types_by_name['LocationMessageResponse'] = _LOCATIONMESSAGERESPONSE
 DESCRIPTOR.message_types_by_name['Empty'] = _EMPTY
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
@@ -176,6 +202,13 @@ LocationMessageRequest = _reflection.GeneratedProtocolMessageType('LocationMessa
   # @@protoc_insertion_point(class_scope:LocationMessageRequest)
   })
 _sym_db.RegisterMessage(LocationMessageRequest)
+
+RetrieveMessageRequest = _reflection.GeneratedProtocolMessageType('RetrieveMessageRequest', (_message.Message,), {
+  'DESCRIPTOR' : _RETRIEVEMESSAGEREQUEST,
+  '__module__' : 'location_pb2'
+  # @@protoc_insertion_point(class_scope:RetrieveMessageRequest)
+  })
+_sym_db.RegisterMessage(RetrieveMessageRequest)
 
 LocationMessageResponse = _reflection.GeneratedProtocolMessageType('LocationMessageResponse', (_message.Message,), {
   'DESCRIPTOR' : _LOCATIONMESSAGERESPONSE,
@@ -200,8 +233,8 @@ _LOCATIONSERVICE = _descriptor.ServiceDescriptor(
   index=0,
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_start=307,
-  serialized_end=431,
+  serialized_start=334,
+  serialized_end=475,
   methods=[
   _descriptor.MethodDescriptor(
     name='Create',
@@ -218,7 +251,7 @@ _LOCATIONSERVICE = _descriptor.ServiceDescriptor(
     full_name='LocationService.Retrieve',
     index=1,
     containing_service=None,
-    input_type=_EMPTY,
+    input_type=_RETRIEVEMESSAGEREQUEST,
     output_type=_LOCATIONMESSAGERESPONSE,
     serialized_options=None,
     create_key=_descriptor._internal_create_key,

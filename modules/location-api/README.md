@@ -37,3 +37,26 @@ https://stackoverflow.com/questions/35407560/attributeerror-dict-object-has-no-a
 https://realpython.com/python-microservices-grpc/
 So I added the "with" block as per https://flask.palletsprojects.com/en/2.0.x/appcontext/, but got '...NameError: name 'init_db' is not defined"'. How is init_db imported? If I use db.init_app(app) instead, then upon running writer.py I got "status = StatusCode.UNAVAILABLE details = "failed to connect to all addresses" grpc_status":14}
 https://stackoverflow.com/questions/419163/what-does-if-name-main-do
+
+If moving writer.py to outside app/: get import error on location+pb2_grpc: Why?
+https://stackoverflow.com/questions/36901/what-does-double-star-asterisk-and-star-asterisk-do-for-parameters
+
+__all__:https://stackoverflow.com/questions/44834/can-someone-explain-all-in-python
+downgrade to python 3.7.5 to overcome psycopg2 intall problem on my Big Sur Mac: https://stackoverflow.com/questions/62898911/how-to-downgrade-python-version-from-3-8-to-3-7-mac
+and https://github.com/pyenv/pyenv/issues/849#issuecomment-863456765 does not work in conda env; 
+change python version in conda: https://chris35wills.github.io/conda_python_version/
+
+removed `export PATH="/Users/mommy/Library/Python/3.9/bin:$PATH"` from .zshrc; added per https://github.com/pyenv/pyenv/issues/849
+had to run `pyenv install 3.7.0` not  `pyenv install 3.7`//error:
+
+(udaconnect_env) mommy@Mommys-iMac location-api % pip install -r requirements.txt
+(udaconnect_env) mommy@Mommys-iMac location-api % python3 app/grpc_server.py
+`python3 -m grpc_tools.protoc -I./ --python_out=./ --grpc_python_out=./ location.proto`
+in Location Schema, why validate for id in create?
+https://stackoverflow.com/questions/35282222/in-python-how-do-i-cast-a-class-object-to-a-dict/35282286
+
+## Local developement
+At modules/location-api:
+terminal one: `kubectl port-forward svc/postgres 5432:5432`
+terminal two: `python3 app/grpc_server.py`
+termnal three: `python3 app/writer.py` or `python3 app/reader.py` 
