@@ -24,7 +24,6 @@ class LocationServicer(location_pb2_grpc.LocationServiceServicer):
         id = randint(100, 1000)
 
         request_value = {
-            "id": id,
             "person_id": request.person_id,
             "longitude": str(request.longitude),
             "latitude": str(request.latitude),
@@ -33,7 +32,7 @@ class LocationServicer(location_pb2_grpc.LocationServiceServicer):
         print("request_value=", request_value)
 
         location_res = location_pb2.LocationMessageResponse(
-            id="53",
+            id=53,
             person_id=request.person_id,
             coordinate="010100000097FDBAD39D925EC0D00A0C59DDC64240",
             creation_time=timestamp_st
@@ -58,19 +57,29 @@ class LocationServicer(location_pb2_grpc.LocationServiceServicer):
     def Retrieve(self, request, context):
         # set up a response stub in case db query does not work, so that I can validate grpc works:
         location_res = location_pb2.LocationMessageResponse(
-            id="53",
+            id=53,
             person_id=8,
             coordinate="010100000097FDBAD39D925EC0D00A0C59DDC64240",
-            creation_time="010100000097FDBAD39D925EC0D00A0C59DDC64240"
+            creation_time="2021-11-07 14:30:53.096698"
         ) 
         # print("giving you back some mock data for illustration purpose...")
         # print("location_res: ", location_res)
 
         result_from_db = location_service.LocationService.Retrieve(request.id) # 
-        print("result_from_db ", result_from_db)   # result_from_db:  <models.Location object at 0x7fd1be907590>            
+        print("result_from_db.id ", result_from_db.id)                 # 66
+        print("result_from_db.person_id ", result_from_db.person_id)   # 5 
+        print("result_from_db.coordinate ", result_from_db.coordinate) # 010100000097fdbad39d925ec0d00a0c59ddc64240
+        print("result_from_db.wkt_shape", result_from_db._wkt_shape)   # None           
 
         if result_from_db:
-            return location_pb2.LocationMessageResponse(**result_from_db.to_dict())
+            cr_time = result_from_db.creation_time.strftime('%Y-%m-%d %H:%M:%S.%f')
+
+            return location_pb2.LocationMessageResponse(
+                id=result_from_db.id,
+                person_id=result_from_db.person_id,
+                coordinate=result_from_db._wkt_shape,
+                creation_time=cr_time)
+
             # if as is: TypeError: No positional arguments allowed
             # if to_dict(): 	details = "Exception calling application: 'Location' object has no attribute 'to_dict'"
             # added to_dict(): TypeError: 66 has type int, but expected one of: bytes, unicode

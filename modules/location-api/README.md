@@ -56,7 +56,8 @@ in Location Schema, why validate for id in create?
 https://stackoverflow.com/questions/35282222/in-python-how-do-i-cast-a-class-object-to-a-dict/35282286
 
 ## Local developement
-At modules/location-api:
+`vagrant up`
+At modules/location-api, after inside venv or a conda env: `pip install -r requirements.txt`, then:
 terminal one: `kubectl port-forward svc/postgres 5432:5432`
 terminal two: `python3 app/grpc_server.py`
 termnal three: `python3 app/writer.py` or `python3 app/reader.py` 
