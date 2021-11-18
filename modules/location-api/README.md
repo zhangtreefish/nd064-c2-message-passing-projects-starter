@@ -61,3 +61,5 @@ At modules/location-api, after inside venv or a conda env: `pip install -r requi
 terminal one: `kubectl port-forward svc/postgres 5432:5432`
 terminal two: `python3 app/grpc_server.py`
 termnal three: `python3 app/writer.py` or `python3 app/reader.py` 
+
+https://stackoverflow.com/questions/2944297/postgresql-function-for-last-inserted-id

@@ -58,13 +58,3 @@ class Location(db.Model):
         coord_text = self.wkt_shape
         return coord_text[coord_text.find("(") + 1 : coord_text.find(" ")]
 
-    # per https://stackoverflow.com/questions/35282222/in-python-how-do-i-cast-a-class-object-to-a-dict/35282286
-    def to_dict(self):
-        class_vars = vars(Location)  # get any "default" attrs defined at the class level
-        inst_vars = vars(self)  # get any attrs defined on the instance (self)
-        all_vars = dict(class_vars)
-        all_vars.update(inst_vars)
-        # filter out private attributes
-        public_vars = {k: v for k, v in all_vars.items() if not k.startswith('_')}
-        return public_vars
-
