@@ -1,4 +1,5 @@
 import time
+import logging
 from concurrent import futures
 
 import grpc
@@ -13,12 +14,10 @@ import json
 
 class LocationServicer(location_pb2_grpc.LocationServiceServicer):
     def Create(self, request, context):
-        print("before timestamp_dt")
         timestamp_dt = datetime.fromtimestamp(request.creation_time.seconds + request.creation_time.nanos / 1e9)
         # print("after timestamp_dt= ", timestamp_dt)  # 2021-11-07 14:30:53.096698
 
         timestamp_st=timestamp_dt.strftime('%Y-%m-%d %H:%M:%S.%f')
-        # print("after timestamp_st= ", timestamp_st)  # 
 
         # construct the dict object needed for calling svc:
         id = randint(100, 1000)
@@ -29,7 +28,7 @@ class LocationServicer(location_pb2_grpc.LocationServiceServicer):
             "latitude": str(request.latitude),
             "creation_time": timestamp_st
         }
-        print("request_value=", request_value)
+        logging.info("request_value=", request_value)
 
         location_res = location_pb2.LocationMessageResponse(
             id=53,
@@ -38,24 +37,8 @@ class LocationServicer(location_pb2_grpc.LocationServiceServicer):
             creation_time=timestamp_st
         )
 
-        result_from_db=location_service.LocationService.Create(request_value) 
-        
-        print("result_from_db= ", result_from_db)
+        location_service.LocationService.Create(request_value) 
 
-        if result_from_db:
-            return location_pb2.LocationMessageResponse(
-                id=result_from_db.id,
-                person_id=result_from_db.person_id,
-                coordinate=str(result_from_db.coordinate),
-                creation_time=cr_time)
-
-        else:
-            if location_res:
-                return location_res
-            else:
-                context.set_code(grpc.StatusCode.UNKNOWN)
-                context.set_details('New Location can not be created for some reason.')
-                return location_pb2.Empty()
 
     def Retrieve(self, request, context):
         # set up a response stub in case db query does not work, so that I can validate grpc works:
@@ -89,7 +72,9 @@ def serve():
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=2))
     location_pb2_grpc.add_LocationServiceServicer_to_server(LocationServicer(), server)
 
-    print("Server starting on port 5006...")
+    logging.getLogger('').handlers = []
+    logging.basicConfig(format='%(message)s', level=logging.DEBUG)
+    logging.info("Server starting on port 5006...")
     server.add_insecure_port("[::]:5006")
     server.start()
     # Keep thread alive

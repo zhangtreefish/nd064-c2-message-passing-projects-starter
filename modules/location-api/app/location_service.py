@@ -32,7 +32,6 @@ class LocationService:
 
     @staticmethod
     def Create(location: Dict) -> Location:
-        print("location in svc: before validate = ", location)
         validation_results: Dict = LocationSchema().validate(location)
         if validation_results:
             logger.warning(f"Unexpected data format in payload: {validation_results}")
@@ -47,7 +46,7 @@ class LocationService:
             persisted_location = db.s.add(new_location)
             result = persisted_location
             all_locations = db.s.all(Location)
-            print("len(all_locations): ", len(all_locations))
+            logging.info("len(all_locations): ", len(all_locations))
             db.s.flush()
             db.s.commit()
             dbs.close()
