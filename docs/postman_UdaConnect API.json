@@ -1,0 +1,148 @@
+{
+	"info": {
+		"_postman_id": "20ca69e6-bc6d-4ee9-84ea-937c977b5890",
+		"name": "UdaConnect API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "/persons-api: persons",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"host": true
+				}
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:5000/persons-api​/persons ",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"persons-api​",
+						"persons "
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/persons-api: persons/id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:30001/persons-api/persons/5",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "30001",
+					"path": [
+						"persons-api",
+						"persons",
+						"5"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/api: locations/id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:30001/api/locations/34",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "30001",
+					"path": [
+						"api",
+						"locations",
+						"34"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/api: persons/id/connection",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:30001/api/persons/5/connection?distance=555&end_date=2020-09-01&start_date=2020-04-01",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "30001",
+					"path": [
+						"api",
+						"persons",
+						"5",
+						"connection"
+					],
+					"query": [
+						{
+							"key": "distance",
+							"value": "555"
+						},
+						{
+							"key": "end_date",
+							"value": "2020-09-01"
+						},
+						{
+							"key": "start_date",
+							"value": "2020-04-01"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/persons-api:  persons",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "  {\n        \"last_name\": \"Fargo\",\n        \"company_name\": \"Alpha Omega Upholstery\",\n        \"first_name\": \"Taco\"\n    }"
+				},
+				"url": {
+					"raw": "http://localhost:30001/persons-api/persons",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "30001",
+					"path": [
+						"persons-api",
+						"persons"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

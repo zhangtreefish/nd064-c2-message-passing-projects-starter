@@ -168,19 +168,13 @@ class geoalchemy2.functions.ST_AsText(*args, **kwargs)
 Return the Well-Known Text (WKT) representation of the geometry/geography without SRID metadata; is the reverse of ST_GeomFromText.
 @dataclass: https://docs.python.org/3/library/dataclasses.html
 
-frontend uses only 2 REST API endpoints:  `http://localhost:30001/api/persons/${personId}/connection?start_date=2020-01-01&end_date=2020-12-30&distance=5` and  `http://localhost:30001/api/persons`; therefore, these two will remain external-facting REST API; but they would be split as the load would be different, requiring different resouce allocation per DeploymentConfig. 
-
-The first, the connection GET, could be potentially slow; therefore, I decide to front it with a message queue, Kafka, in this case, to improve user experience by providing unsynchronousy and durability. 
-
-Location resource is internal and POST could be intensive, therefore, makes a good candidate for grpc.
-
-Copy and paste in moddules/: api/, rename; copy in deploymnet/: person-api.yaml; remove non-person stuff; use 5100 port; 
+Copy and paste in modules/: api/, rename; copy in deployment/: person-api.yaml; remove non-person stuff; use 5100 port; 
 in snake env: `docker build -t person .`
 docker run --rm -p 5100:5100 person
 
-conda create -n udaconnect_env python=3.9
+`conda create -n udaconnect_env python=3.9`
 
-docker build -t nd064-person-api .  
+`docker build -t nd064-person-api . ` 
 docker tag nd064-person-api treefishdocker/nd064-person-api:latest
 docker image ls |grep person
 docker push treefishdocker/nd064-person-api:latest
@@ -194,7 +188,7 @@ At project directory, running `kubectl get svc` will get "The connection to the 
 http://localhost:30001/health 200
 http://127.0.0.1:30001/health
 http://127.0.0.1:30002/health
-docker build -t local-person-api  ./modules/person-api/ 
+`docker build -t local-person-api  ./modules/person-api/ `
 
 sudo cat /etc/rancher/k3s/registries.yaml
 
@@ -208,7 +202,7 @@ docker image ls
 mommy@Mommys-iMac nd064-c2-message-passing-projects-starter % kubectl port-forward pod/udaconnect-api-89dbffbf9-mvxrd :5000 : 200
 
 add os.env
-docker build -t local-person modules/person-api/ 
+docker build -t local-person modules/person-api/ .
 docker run --rm -p 5002:5002 local-person
 
 expose: only to internal svc or informative; ports: host:containerPort per https://stackoverflow.com/questions/40801772/what-is-the-difference-between-docker-compose-ports-vs-expose
@@ -219,7 +213,7 @@ changes not reflected to endpoint: `docker system prune` `docker image rm <>`;
 option shift A : comment out code in VSCode Mac
 
 All in conda env: 
-udaconnect_env: `vagrnat destroy` then `vagrant up` ..
+udaconnect_env: `vagrant destroy` then `vagrant up` ..
 `http://localhost:30002/` - OpenAPI Documentation
 docker tag udaconnect-app:latest treefishdocker/udaconnect-app:latest 
 
@@ -229,7 +223,7 @@ to update with :latest tag: `kubectl patch deployment person-api  -p "{\"spec\":
 
 need to use namespace to organize: add persons-api as namespace , as new-api
 TODOs:
-docker build -t newconnect-api modules/new-api/ 
+`docker build -t newconnect-api modules/new-api/` 
 docker tag newconnect-api treefishdocker/newconnect-api:latest
 kubectl apply -f deployment/newconnect-api.yaml
 
@@ -254,3 +248,38 @@ cython>=0.29.8
 protobuf>=3.5.0.post1, < 4.0dev
 six>=1.10
 wheel>=0.29
+
+
+conda activate udaconnect_env
+vagrant up //conda deactivate first
+vagrant ssh
+sudo cat /etc/rancher/k3s/k3s.yaml
+vi ~/.kube/config //gg dG to delete all in vi
+kubectl apply -f deployment/db/
+kubectl apply -f deployment/newconnect-api.yaml
+kubectl apply -f deployment/udaconnect-app.yaml
+kubectl get po
+
+sh scripts/run_db_command.sh  postgres-5f676c995d-qnqvn
+kubectl port-forward newconnect-api-785c8f6dc9-5kngm 5000:30001
+#### build grpc api:
+mommy@Mommys-iMac location-api % docker build -t location-api .   
+fix error in requirements.txt per https://knowledge.udacity.com/questions/712327       
+
+docker tag location-api:latest treefishdocker/location-api:v1.0
+docker push treefishdocker/location-api:v1.0
+
+create location-grpc-api.yaml similar to udaconnect-api.yaml; 
+
+kubectl apply -f deployment/location-grpc-api.yaml
+
+conda create --name location_grpc python=3.8 
+Pillow==8.3.2
+grpcio==1.38.0
+protobuf==3.17.1
+
+https://stackoverflow.com/questions/50777849/from-conda-create-requirements-txt-for-pip3
+pips install -r requirements.txt 
+//above in snakes conda env
+pip freeze > requirements.txt
+docker tag location-api:latest treefishdocker/location-api:v1.1

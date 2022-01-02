@@ -2,10 +2,14 @@ version: '3'
 
 services:
   person-api:
-    build: modules/person-api
+    # build: modules/person-api
+    build: modules/new-api
+
     command: ["flask", "run", "--host=0.0.0.0"]
     volumes:
-      - ./modules/person-api:/backend
+      # - ./modules/person-api:/backend
+      - ./modules/new-api:/backend
+
     environment:
       - FLASK_ENV=dev
       # - FLASK_APP=customer-api.py

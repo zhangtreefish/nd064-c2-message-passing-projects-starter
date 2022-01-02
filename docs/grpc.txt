@@ -1,0 +1,3 @@
+I refactored two endpoints of location API into grpc service, as in modules/location-api/app/grpc_server.py, which calls modules/location-api/app/location_service.py.
+Create() provides the equivalent function of POST /locations REST endpoint, whereas Retrieve() provides the equivalent of GET /locations/<location_id> REST endpoint.
+The client files are modules/location-api/app/location-producer.py, and modules/location-api/app/reader.py.
