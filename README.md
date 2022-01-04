@@ -283,3 +283,30 @@ pips install -r requirements.txt
 //above in snakes conda env
 pip freeze > requirements.txt
 docker tag location-api:latest treefishdocker/location-api:v1.1
+
+#### deploy location service kafka consumer to K3 cluster
+https://knowledge.udacity.com/questions/718052
+https://knowledge.udacity.com/questions/693803
+
+Using script from https://knowledge.udacity.com/questions/685481: generated a kafka.yaml file
+kubectl apply -f deployment/kafka.yaml
+
+https://stackoverflow.com/questions/19734617/protobuf-to-json-in-python
+docker build -t location-consumer .
+docker tag location-consumer:latest treefishdocker/location-consumer:v1.0
+docker push treefishdocker/location-consumer:v1.0
+kubectl apply -f deployment/location-kafka-consumer.yaml
+
+kubectl exec kafka-0 -- ls bin/
+per https://docs.bitnami.com/tutorials/deploy-scalable-kafka-zookeeper-cluster-kubernetes/
+export POD_NAME=$(kubectl get pods --namespace default -l "app.kubernetes.io/name=kafka,app.kubernetes.io/instance=kafka,app.kubernetes.io/component=kafka" -o jsonpath="{.items[0].metadata.name}")
+
+
+echo $POD_NAME //kafka-0
+kubectl --namespace default exec -it kafka-0 -- kafka-topics.sh --create --zookeeper kafka-zookeeper:2181 --replication-factor 1 --partitions 1 --topic locations
+//Created topic locations.
+//kubectl --namespace default exec -it kafka-0 -- kafka-console-consumer.sh --bootstrap-server kafka-zookeeper:9092 --topic location --consumer.config /opt/bitnami/kafka/conf/consumer.properties &
+kubectl --namespace default exec -it kafka-0 -- kafka-console-consumer.sh --bootstrap-server kafka-zookeeper:9092 --topic location
+kubectl --namespace default exec -it kafka-0  -- kafka-console-producer.sh --broker-list kafka-zookeeper:9092 --topic location --producer.config /opt/bitnami/kafka/conf/producer.properties
+Fix NoBroker error per https://knowledge.udacity.com/questions/715780: then repeat the build; and push; deploy
+docker tag location-consumer:latest treefishdocker/location-consumer:v1.1
