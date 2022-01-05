@@ -311,7 +311,20 @@ kubectl --namespace default exec -it kafka-0  -- kafka-console-producer.sh --bro
 Fix NoBroker error per https://knowledge.udacity.com/questions/715780: then repeat the build; and push; deploy
 docker tag location-consumer:latest treefishdocker/location-consumer:v1.1
 
-##### copy to a separate folder:
+##### copy each resource to a separate folder:
 docker build -t location-consumer .
 docker tag location-consumer:latest treefishdocker/location-consumer:v1.2
 docker push treefishdocker/location-consumer:v1.2
+
+docker build -t newconnect-api .
+docker tag newconnect-api:latest treefishdocker/newconnect-api:v1.1
+docker push treefishdocker/newconnect-api:v1.1
+kubectl apply -f deployment/newconnect-api.yaml
+
+docker build -t persons-api .
+docker tag persons-api:latest treefishdocker/persons-api:v1.0
+docker push treefishdocker/persons-api:v1.0
+kubectl apply -f deployment/persons-api.yaml
+
+kubectl port-forward pod/persons-api-56544959ff-ldbdk :5000 //Forwarding from 127.0.0.1:63382 -> 5000
+//access http://127.0.0.1:63382/

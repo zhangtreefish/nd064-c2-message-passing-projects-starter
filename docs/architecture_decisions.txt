@@ -1,10 +1,12 @@
 The frontend app udaconnect-app uses two REST API endpoints:  `http://localhost:30001/api/persons/${personId}/connection?start_date=2020-01-01&end_date=2020-12-30&distance=5` and  
-`http://localhost:30001/api/persons`; therefore, those two APIs will remain external-facting REST APIs.  They would be split into separate namespaces, possible by as the load would be different, requiring different resouce allocation per Deploy
+`http://localhost:30001/api/persons`; therefore, those two APIs will remain external-facting REST APIs.  Person API would separate from the original REST API, possible by as the load would be different
+among different endpoints, requiring different resource configuration during deployment. 
 
-The first, the connection GET,  
+Location resource is internal and POST could be intensive, therefore, makes a good candidate for grpc. Its business logic is implemented by modules/location-api/app/location_service.py, as opposed to by 
+the original service written for REST API, due to the fact that the former can not use the `db.session` syntax that came with Flask. Still location_service reuses Person and Location models as well as 
+Person and Location schemas.
 
-Location resource is internal and POST could be intensive, therefore, makes a good candidate for grpc. The modules/location-api/app/location_service.py reuses modules/location-api/app/models.py 's 
-Person and Locationas well as modules/location-api/app/schemas.py 's Person and Location, however it implements its own modules/location-api/app/location_service.py, instead of reusing the original service written for REST 
-API such as modules/api/app/udaconnect/services.py, due to the fact that the former can not use the `db.session` syntax that came with Flask.
+Location service by its nature could involve heavier load and potentially slow. Therefore, I decide to front it with a message queue, Kafka, to improve user experience by providing unsynchronousy and 
+durability.  
 
-Location service by its nature could be potentially slow. Therefore, I decide to front it with a message queue, Kafka, in this case, to improve user experience by providing unsynchronousy and durability.
+With Person REST API separated out, the remaining API is renamed as newconnect-api. It retains the other resources, in case any use of such REST endpoints is preferred.

@@ -105,52 +105,6 @@
                     "UdaConnect"
                 ]
             }
-        },
-        "/persons-api/persons": {
-            "post": {
-                "responses": {
-                    "200": {
-                        "description": "Success"
-                    }
-                },
-                "operationId": "post_persons_resource",
-                "tags": [
-                    "Persons"
-                ]
-            },
-            "get": {
-                "responses": {
-                    "200": {
-                        "description": "Success"
-                    }
-                },
-                "operationId": "get_persons_resource",
-                "tags": [
-                    "Persons"
-                ]
-            }
-        },
-        "/persons-api/persons/{person_id}": {
-            "parameters": [
-                {
-                    "in": "path",
-                    "description": "Unique ID for a given Person",
-                    "name": "person_id",
-                    "required": true,
-                    "type": "string"
-                }
-            ],
-            "get": {
-                "responses": {
-                    "200": {
-                        "description": "Success"
-                    }
-                },
-                "operationId": "get_person_resource",
-                "tags": [
-                    "Persons"
-                ]
-            }
         }
     },
     "info": {
