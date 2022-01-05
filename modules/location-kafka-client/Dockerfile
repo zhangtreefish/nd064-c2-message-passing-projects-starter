@@ -10,4 +10,4 @@ RUN python3 -m grpc_tools.protoc -I./app  --python_out=./app --grpc_python_out=.
 EXPOSE 5006
 
 COPY . .
-ENTRYPOINT ["python3", "app/grpc_server.py"]
+ENTRYPOINT ["python3", "app/location-consumer.py"]

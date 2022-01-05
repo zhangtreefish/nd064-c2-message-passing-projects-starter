@@ -310,3 +310,8 @@ kubectl --namespace default exec -it kafka-0 -- kafka-console-consumer.sh --boot
 kubectl --namespace default exec -it kafka-0  -- kafka-console-producer.sh --broker-list kafka-zookeeper:9092 --topic location --producer.config /opt/bitnami/kafka/conf/producer.properties
 Fix NoBroker error per https://knowledge.udacity.com/questions/715780: then repeat the build; and push; deploy
 docker tag location-consumer:latest treefishdocker/location-consumer:v1.1
+
+##### copy to a separate folder:
+docker build -t location-consumer .
+docker tag location-consumer:latest treefishdocker/location-consumer:v1.2
+docker push treefishdocker/location-consumer:v1.2

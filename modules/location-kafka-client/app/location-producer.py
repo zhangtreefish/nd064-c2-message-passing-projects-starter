@@ -27,10 +27,8 @@ def ReceiveLocation():
     return location
 
 def PublishLocation():
-    channel = grpc.insecure_channel("127.0.0.1:5006", options=(('grpc.enable_http_proxy', 0),))
-    stub = location_pb2_grpc.LocationServiceStub(channel)
     TOPIC_NAME = 'locations'
-    KAFKA_SERVER = 'localhost:9092'
+    KAFKA_SERVER = 'kafka.default.svc.cluster.local' # 'localhost:9092'
 
     producer = KafkaProducer(bootstrap_servers=KAFKA_SERVER)
 
