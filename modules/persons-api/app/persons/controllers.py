@@ -14,9 +14,6 @@ DATE_FORMAT = "%Y-%m-%d"
 
 api = Namespace("Persons", description="Persons to be Connected.")  # noqa
 
-
-# TODO: This needs better exception handling
-
 @api.route("/persons")
 class PersonsResource(Resource):
     @accepts(schema=PersonSchema)

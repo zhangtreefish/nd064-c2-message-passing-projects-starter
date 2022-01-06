@@ -30,25 +30,10 @@ class LocationServicer(location_pb2_grpc.LocationServiceServicer):
         }
         logging.info("request_value=", request_value)
 
-        location_res = location_pb2.LocationMessageResponse(
-            id=53,
-            person_id=request.person_id,
-            coordinate="010100000097FDBAD39D925EC0D00A0C59DDC64240",
-            creation_time=timestamp_st
-        )
-
         location_service.LocationService.Create(request_value) 
 
 
-    def Retrieve(self, request, context):
-        # set up a response stub in case db query does not work, so that I can validate grpc works:
-        location_res = location_pb2.LocationMessageResponse(
-            id=53,
-            person_id=8,
-            coordinate="010100000097FDBAD39D925EC0D00A0C59DDC64240",
-            creation_time="2021-11-07 14:30:53.096698"
-        )
-        
+    def Retrieve(self, request, context):       
         result_from_db = location_service.LocationService.Retrieve(request.id)         
 
         if result_from_db:
@@ -58,14 +43,10 @@ class LocationServicer(location_pb2_grpc.LocationServiceServicer):
                 coordinate=str(result_from_db.coordinate),
                 creation_time=result_from_db.creation_time.strftime('%Y-%m-%d %H:%M:%S.%f')
                 )
-        else:
-            # return the stub in the event of no result_from_db:
-            if location_res:
-                return location_res
-            else:
-                context.set_code(grpc.StatusCode.NOT_FOUND)
-                context.set_details('Location with id %s not found' % request.id)
-                return location_pb2.Empty()
+        else: 
+            context.set_code(grpc.StatusCode.NOT_FOUND)
+            context.set_details('Location with id %s not found' % request.id)
+            return location_pb2.Empty()
 
 def serve():
     # Initialize gRPC server

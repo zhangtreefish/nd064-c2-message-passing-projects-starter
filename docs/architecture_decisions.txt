@@ -6,7 +6,7 @@ Location resource is internal and POST could be intensive, therefore, makes a go
 the original service written for REST API, due to the fact that the former can not use the `db.session` syntax that came with Flask. Still location_service reuses Person and Location models as well as 
 Person and Location schemas.
 
-Location service by its nature could involve heavier load and potentially slow. Therefore, I decide to front it with a message queue, Kafka, to improve user experience by providing unsynchronousy and 
-durability.  
+Location service by its nature involves realtime data generation in unpredictable timings requiring asynchronous processing. Therefore, I decide to front it with a message queue, Kafka, to improve user 
+experience by providing unsynchronousy, scalability, reliability, and low latency.  
 
 With Person REST API separated out, the remaining API is renamed as newconnect-api. It retains the other resources, in case any use of such REST endpoints is preferred.

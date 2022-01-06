@@ -24,12 +24,19 @@ def ConsumeLocation():
     channel = grpc.insecure_channel("127.0.0.1:5006", options=(('grpc.enable_http_proxy', 0),))
     stub = location_pb2_grpc.LocationServiceStub(channel)
 
-    for message in consumer:
-        logging.info("message before persisting into db ...", message)
-        # send the location data to db via gRpc server:
-        location_obj = MessageToDict(message)
-        stub.Create(location_obj) 
-        logging.info("after callling LocationService...")
+    while True:
+        try:
+            for message in consumer:
+                logging.info("message before persisting into db ...", message)
+                # send the location data to db via gRpc server:
+                location_obj = MessageToDict(message)
+                stub.Create(location_obj) 
+                logging.info("after callling LocationService...")
+        except:
+            print("Something wrong during processing locations messages...")
+        finally:
+            consumer.close()
+        
 
 if __name__ == "__main__":
     ConsumeLocation()

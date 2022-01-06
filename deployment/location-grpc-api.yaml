@@ -31,7 +31,7 @@ spec:
         service: location-grpc-api
     spec:
       containers:
-      - image: treefishdocker/location-api:v1.1
+      - image: treefishdocker/location-api:v1.2
         name: location-grpc-api
         imagePullPolicy: Always
         env:

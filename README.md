@@ -179,7 +179,7 @@ docker tag nd064-person-api treefishdocker/nd064-person-api:latest
 docker image ls |grep person
 docker push treefishdocker/nd064-person-api:latest
 
-TODO: set up portforwarding in Vagrant file;
+set up portforwarding in Vagrant file;
 set up env to allow local 
 
 # instead of treefishdocker/nd064-person-api:v0.0.4
@@ -222,7 +222,7 @@ kubectl logs <pod>
 to update with :latest tag: `kubectl patch deployment person-api  -p "{\"spec\":{\"template\":{\"metadata\":{\"labels\":{\"date\":\"`date +'%s'`\"}}}}}"` per https://stackoverflow.com/questions/53591417/kubernetes-kubectl-apply-does-not-update-pods-when-using-latest-tag
 
 need to use namespace to organize: add persons-api as namespace , as new-api
-TODOs:
+
 `docker build -t newconnect-api modules/new-api/` 
 docker tag newconnect-api treefishdocker/newconnect-api:latest
 kubectl apply -f deployment/newconnect-api.yaml
@@ -328,3 +328,9 @@ kubectl apply -f deployment/persons-api.yaml
 
 kubectl port-forward pod/persons-api-56544959ff-ldbdk :5000 //Forwarding from 127.0.0.1:63382 -> 5000
 //access http://127.0.0.1:63382/
+update port in frontend:
+docker push treefishdocker/udaconnect-app:v1.0
+
+https://www.confluent.io/blog/event-streaming-platform-1/
+perils of polling: https://eng.uber.com/real-time-push-platform/
+https://github.com/python-restx/flask-restx/issues/183
